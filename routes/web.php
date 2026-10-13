@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\MahasiswaController;
+
+// 1. Route Dasar
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,7 +22,8 @@ Route::get('/info', fn () => [
     'framework' => 'Laravel 13',
 ]);
 
-// 3.2 Route Parameter
+
+// 2. Route Parameter
 
 Route::get('/anggota/{nama}', function (string $nama) {
     return "Anggota perpustakaan: {$nama}";
@@ -33,7 +38,7 @@ Route::get('/buku/{kategori}/tahun/{tahun}', function (string $kategori, int $ta
 });
 
 
-// 3.3 Route Constraint
+// 3. Route Constraint
 
 Route::get('/peminjaman/{id}', function (int $id) {
     return "Detail peminjaman nomor {$id}";
@@ -49,19 +54,25 @@ Route::get('/isbn/{isbn}', function (string $isbn) {
 
 Route::get('/status/{status}', function (string $status) {
     return "Status peminjaman: {$status}";
-})->whereIn('status', ['dipinjam', 'dikembalikan', 'terlambat']);
+})->whereIn('status', [
+    'dipinjam',
+    'dikembalikan',
+    'terlambat'
+]);
 
 
-// 3.4 Named Route dan View Route
+// 4. Named Route dan View Route
 
 Route::view('/layanan', 'layanan')->name('layanan');
 
 Route::get('/bantuan', function () {
-    return view('bantuan', ['telepon' => '(024) 1234567']);
+    return view('bantuan', [
+        'telepon' => '(024) 1234567'
+    ]);
 })->name('bantuan');
 
 
-// 3.5 Route Group dan Prefix
+// 5. Route Group dan Prefix
 
 Route::prefix('petugas')->name('petugas.')->group(function () {
 
@@ -77,12 +88,37 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
 });
 
 
-// 3.6 Redirect dan Fallback
+// 6. Redirect dan Fallback
 
 Route::redirect('/home', '/');
 
 Route::permanentRedirect('/katalog-lama', '/info');
 
 Route::fallback(function () {
-    return response('Maaf, halaman yang Anda cari tidak tersedia.', 404);
+    return response(
+        'Maaf, halaman yang Anda cari tidak tersedia.',
+        404
+    );
 });
+
+
+// 7. Route Controller Produk
+
+Route::get('/produk', [ProdukController::class, 'index'])
+    ->name('produk.index');
+
+Route::get('/produk/{id}', [ProdukController::class, 'show'])
+    ->whereNumber('id')
+    ->name('produk.show');
+
+
+// 8. Route Controller Mahasiswa (Tambahan Latihan Praktikum)
+
+Route::get('/profil', [MahasiswaController::class, 'profil'])
+    ->name('mahasiswa.profil');
+
+Route::get('/mahasiswa', [MahasiswaController::class, 'daftar'])
+    ->name('mahasiswa.daftar');
+
+Route::get('/mahasiswa/{nim}', [MahasiswaController::class, 'detail'])
+    ->name('mahasiswa.detail');
