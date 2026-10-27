@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\ProductController;
 
 // 1. Route Dasar
 
@@ -112,7 +113,7 @@ Route::get('/produk/{id}', [ProdukController::class, 'show'])
     ->name('produk.show');
 
 
-// 8. Route Controller Mahasiswa (Tambahan Latihan Praktikum)
+// 8. Route Controller Mahasiswa
 
 Route::get('/profil', [MahasiswaController::class, 'profil'])
     ->name('mahasiswa.profil');
@@ -122,3 +123,15 @@ Route::get('/mahasiswa', [MahasiswaController::class, 'daftar'])
 
 Route::get('/mahasiswa/{nim}', [MahasiswaController::class, 'detail'])
     ->name('mahasiswa.detail');
+
+
+// 9. Route Menuju Controller Product
+
+Route::get('/product', [ProductController::class, 'index'])
+    ->name('product.index');
+
+Route::get('/products/{id}',function ($id) {
+    return 'Produk #' . $id;
+});
+
+Route::get('/products/{id}',[ProductController::class,'show']);

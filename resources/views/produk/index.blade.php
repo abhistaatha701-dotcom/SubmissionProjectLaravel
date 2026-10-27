@@ -11,7 +11,7 @@
     Data berhasil disimpan.
 </x-alert>
 
-<table border="1">
+<table border="1" cellpadding="10" cellspacing="0">
     <tr>
         <th>No</th>
         <th>Nama</th>
