@@ -1,65 +1,32 @@
-@extends('layouts.app')
-
-@section('title', 'Daftar Produk')
-
-@section('content')
-
-<h1>Daftar Produk</h1>
-
-{{-- Component Alert --}}
-<x-alert tipe="sukses">
-    Data berhasil disimpan.
-</x-alert>
-
-<table border="1" cellpadding="10" cellspacing="0">
-    <tr>
-        <th>No</th>
-        <th>Nama</th>
-        <th>Harga</th>
-        <th>Stok</th>
-        <th>Aksi</th>
-    </tr>
-
-    @forelse ($produk as $p)
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Daftar Produk</title>
+</head>
+<body>
+    <h1>Daftar Produk</h1>
+    <table border="1">
+        <tr>
+            <th>No</th>
+            <th>Nama</th>
+            <th>Harga</th>
+            <th>Stok</th>
+            <th>Aksi</th>
+        </tr>
+        @forelse ($produk as $p)
         <tr>
             <td>{{ $loop->iteration }}</td>
-
             <td>{{ $p['nama'] }}</td>
-
-            <td>
-                <x-harga-produk
-                    :nilai="$p['harga']"
-                    :diskon="true"
-                />
-            </td>
-
-            <td>
-                @if ($p['stok'] > 10)
-                    Aman
-                @elseif ($p['stok'] > 0)
-                    Menipis
-                @else
-                    Habis
-                @endif
-            </td>
-
-            <td>
-                <a href="{{ route('produk.show', $p['id']) }}">
-                    Detail
-                </a>
-            </td>
+            <td>Rp {{ number_format($p['harga'], 0, ',', '.') }}</td>
+            <td>{{ $p['stok'] }}</td>
+            <td><a href="{{ route('produk.show', $p['id']) }}">Detail</a></td>
         </tr>
-    @empty
+        @empty
         <tr>
             <td colspan="5">Belum ada produk.</td>
         </tr>
-    @endforelse
-</table>
-
-@endsection
-
-@push('scripts')
-    <script>
-        console.log('produk dimuat');
-    </script>
-@endpush
+        @endforelse
+    </table>
+</body>
+</html>

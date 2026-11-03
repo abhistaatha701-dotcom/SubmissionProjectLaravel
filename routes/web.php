@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\JurusanController;
 
 // 1. Route Dasar
 
@@ -95,13 +96,6 @@ Route::redirect('/home', '/');
 
 Route::permanentRedirect('/katalog-lama', '/info');
 
-Route::fallback(function () {
-    return response(
-        'Maaf, halaman yang Anda cari tidak tersedia.',
-        404
-    );
-});
-
 
 // 7. Route Controller Produk
 
@@ -135,3 +129,20 @@ Route::get('/products/{id}',function ($id) {
 });
 
 Route::get('/products/{id}',[ProductController::class,'show']);
+
+// 10. Route Controller Jurusan
+
+Route::get('/jurusan', [JurusanController::class, 'index'])
+    ->name('jurusan.index');
+
+Route::get('/jurusan/{id}', [JurusanController::class, 'show'])
+    ->whereNumber('id')
+    ->name('jurusan.show');
+
+    //Fallback
+    Route::fallback(function () {
+    return response(
+        'Maaf, halaman yang Anda cari tidak tersedia.',
+        404
+    );
+});
