@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +6,8 @@
 <body>
 
     <h1>Daftar Jurusan</h1>
+
+    <a href="{{ route('jurusan.create') }}">Tambah Jurusan</a>
 
     <table border="1" cellpadding="6">
         <tr>
